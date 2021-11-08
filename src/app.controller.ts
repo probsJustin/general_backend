@@ -15,6 +15,7 @@ import {
 } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import {
+  ApiBasicAuth,
   ApiBearerAuth,
   ApiBody,
   ApiExcludeEndpoint,
@@ -145,6 +146,19 @@ export class AppController {
   @ApiBody({ type: sendTestMessageToJenkins })
   async sendTestMessageToJenkins(@Body() sendTestMessageToJenkins: sendTestMessageToJenkins){
   }
+
+  /*
+  @Post(aaa.internal_url)
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'created successfully'
+  })
+  @ApiOperation({ summary: aaa.summary})
+  @ApiBody({ type: aaa })
+  async aaa(@Body() aaa: aaa){
+
+  }
+  */
 
 }
 
