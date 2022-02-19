@@ -16,6 +16,7 @@ async function bootstrap() {
 
   await app.listen(3000);
   console.log('Application is listening at http://localhost:3000/');
+  console.log('Application is swagger is at http://localhost:3000/api');
   if (module.hot) {
     module.hot.accept();
     module.hot.dispose(() => app.close());

@@ -25,138 +25,93 @@ import {
   ApiResponse,
   ApiTags
 } from '@nestjs/swagger';
-import { AppService } from './app.service';
+
 import { NestCrawlerService } from 'nest-crawler';
-import { 
-  getCatFactsRequest, 
-  getIPAddressInfoRequest, 
-  sendMessageToExternalDatabase, 
-  sendTestMessageToInternalDatabase,
-  sendInformationToInternalDatabase,
-  getInformationFromInternalDatabase,
-  sendTwilioTextMessage,
-  sendTestMessageToJenkins
- } from './requestTypes';
 
-@ApiTags('Api Endpoints')
+import { AppService } from './app.service';
+import { CatFactsRequest } from './services/catFactsRequest.service';
+import { IPAddressInfoRequest } from './services/iPAddressInfoRequest.service';
+import { SocialistPropaganda } from './services/socialistPropaganda.service';
+import { MessageToExternalDatabase } from './services/messageToExternalDatabase.service';
+import { MessageToInternalDatabase } from './services/messageToInternalDatabase.service';
+import { InformationFromInternalDatabase } from './services/informationFromInternalDatabase.service';
+import { InformationToInternalDatabase } from './services/informationToInternalDatabase.service';
+import { TwilioTextMessage } from './services/twilioTextMessage.service';
 
+@ApiTags('General backend api playground')
 @Controller()
 export class AppController {
+
   constructor(
     private readonly appService: AppService,
     private readonly httpService: HttpService,
-    private readonly nestCrawlerService: NestCrawlerService 
-    ) {
+    private readonly catFactsRequest: CatFactsRequest,
+    private readonly iPAddressInfoRequest: IPAddressInfoRequest,
+    private readonly socialistPropaganda: SocialistPropaganda,
+    private readonly messageToExternalDatabase: MessageToExternalDatabase,
+    private readonly messageToInternalDatabase: MessageToInternalDatabase,
+    private readonly informationToInternalDatabase: InformationToInternalDatabase,
+    private readonly informationFromInternalDatabase: InformationFromInternalDatabase,
+    private readonly twilioTextMessage: TwilioTextMessage,
+    ) {}
 
+  @Get(CatFactsRequest.internalURL)
+  @ApiOperation({ summary: CatFactsRequest.summary})
+  async processCatFactsRequest(){
+    return this.catFactsRequest.get();
   }
 
-
-  @Post(getCatFactsRequest.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: 'Create Requsest to Cat Facts API'})
-  @ApiBody({  })
-  async processGetCatFactsRequest(@Body() getCatFactsRequest: getCatFactsRequest ){
-    // https://catfact.ninja/
-
+  @Get(SocialistPropaganda.internalURL)
+  @ApiOperation({ summary: SocialistPropaganda.summary})
+  async processSocialistPropaganda(){
+     return this.socialistPropaganda.get();
   }
 
-
-  @Post(getIPAddressInfoRequest.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiParam({name: 'Ip-Address', description: 'The Ip address that we are getting the information for', example: '127.0.0.1'})
-  @ApiOperation({ summary: getIPAddressInfoRequest.summary })
-  @ApiBody({  })
-  async getIPAddressInfoRequest(@Body() getIPAddressInfoRequest: getIPAddressInfoRequest ){
-    // ip-api.com
+  @Post(IPAddressInfoRequest.internalURL)
+  @ApiOperation({ summary: IPAddressInfoRequest.summary })
+  async processIPAddressInfoRequest(){
+    return this.iPAddressInfoRequest.post();
   }
 
-
-  @Post(sendMessageToExternalDatabase.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-
-  @ApiOperation({ summary: sendMessageToExternalDatabase.summary })
-  @ApiBody({ type: sendMessageToExternalDatabase })
-  async sendMessageToExternalDatabase(@Body() sendMessageToExternalDatabase: sendMessageToExternalDatabase){
-    // twilio
+  @Post(MessageToExternalDatabase.internalURL)
+  @ApiOperation({ summary: MessageToExternalDatabase.summary })
+  async processMessageToExternalDatabase(){
+    return this.messageToExternalDatabase.post();
   }
 
-
-  @Post(sendTestMessageToInternalDatabase.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: sendTestMessageToInternalDatabase.summary })
-  @ApiBody({ type: sendTestMessageToInternalDatabase })
-  async sendTestMessageToInternalDatabase(@Body() sendTestMessageToInternalDatabase: sendTestMessageToInternalDatabase ){
-    // internal database
+  @Post(MessageToInternalDatabase.internalURL)
+  @ApiOperation({ summary: MessageToInternalDatabase.summary })
+  async processMessageToInternalDatabase(){
+     this.messageToInternalDatabase.post();
   }
 
-
-  @Post(sendInformationToInternalDatabase.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: sendInformationToInternalDatabase.summary})
-  @ApiBody({ type:sendInformationToInternalDatabase })
-  async sendInformationToInternalDatabase(@Body() sendInformationToInternalDatabase: sendInformationToInternalDatabase){
-    // twilio
+  @Post(InformationToInternalDatabase.internalURL)
+  @ApiOperation({ summary: InformationToInternalDatabase.summary})
+  async processInformationToInternalDatabase(){
+    return this.informationToInternalDatabase.post();
   }
 
-
-  @Post(getInformationFromInternalDatabase.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: getInformationFromInternalDatabase.summary })
-  @ApiBody({ type: getInformationFromInternalDatabase })
-  async getInformationFromInternalDatabase(@Body() getInformationFromInternalDatabase: getInformationFromInternalDatabase ){
+  @Post(InformationFromInternalDatabase.internalURL)
+  @ApiOperation({ summary: InformationFromInternalDatabase.summary })
+  async processInformationFromInternalDatabase(){
+  return this.informationFromInternalDatabase.post();
   }
 
-
-  @Post(sendTwilioTextMessage.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: sendTwilioTextMessage.summary})
-  @ApiBody({ type: sendTwilioTextMessage  })
-  async sendTwilioTextMessage(@Body() sendTwilioTextMessage: sendTwilioTextMessage ){
-    // twilio
-  }
-
-
-  @Post(sendTestMessageToJenkins.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: sendTestMessageToJenkins.summary})
-  @ApiBody({ type: sendTestMessageToJenkins })
-  async sendTestMessageToJenkins(@Body() sendTestMessageToJenkins: sendTestMessageToJenkins){
+  @Post(TwilioTextMessage.internalURL)
+  @ApiOperation({ summary: TwilioTextMessage.summary})
+  async processTwilioTextMessage(){
+    return this.twilioTextMessage.post();
   }
 
   /*
-  @Post(aaa.internal_url)
-  @ApiResponse({
-    status: HttpStatus.CREATED,
-    description: 'created successfully'
-  })
-  @ApiOperation({ summary: aaa.summary})
-  @ApiBody({ type: aaa })
-  async aaa(@Body() aaa: aaa){
-
+  // delete either get or post and replace 'aaa' with the service name.
+  example payload
+  @Post(this.aaa.internalURL)
+  @Get(this.aaa.internalURL)
+  @ApiOperation({ summary: this.aaa.summary})
+  async aaa(){
+    return this.aaa.post();
+    return this.aaa.get();
   }
   */
 

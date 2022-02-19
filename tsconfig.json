@@ -1,5 +1,6 @@
 {
   "compileOnSave": true,
+  "include": ["**/*.ts"],
   "compilerOptions": {
     "watch": true,
     "module": "commonjs",
@@ -13,6 +14,7 @@
     "outDir": "./dist",
     "baseUrl": "./",
     "incremental": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "resolveJsonModule": true
   }
 }
