@@ -26,7 +26,6 @@ import {
   ApiTags
 } from '@nestjs/swagger';
 
-import { NestCrawlerService } from 'nest-crawler';
 
 import { AppService } from './app.service';
 import { CatFactsRequest } from './services/catFactsRequest.service';
@@ -37,6 +36,7 @@ import { MessageToInternalDatabase } from './services/messageToInternalDatabase.
 import { InformationFromInternalDatabase } from './services/informationFromInternalDatabase.service';
 import { InformationToInternalDatabase } from './services/informationToInternalDatabase.service';
 import { TwilioTextMessage } from './services/twilioTextMessage.service';
+import { Discord } from './services/discord.service';
 
 @ApiTags('General backend api playground')
 @Controller()
@@ -53,6 +53,7 @@ export class AppController {
     private readonly informationToInternalDatabase: InformationToInternalDatabase,
     private readonly informationFromInternalDatabase: InformationFromInternalDatabase,
     private readonly twilioTextMessage: TwilioTextMessage,
+    private readonly discord: Discord,
     ) {}
 
   @Get(CatFactsRequest.internalURL)
@@ -101,6 +102,12 @@ export class AppController {
   @ApiOperation({ summary: TwilioTextMessage.summary})
   async processTwilioTextMessage(){
     return this.twilioTextMessage.post();
+  }
+
+  @Post(Discord.internalURL)
+  @ApiOperation({ summary: Discord.summary})
+  async processDiscord(){
+    return this.discord.post();
   }
 
   /*

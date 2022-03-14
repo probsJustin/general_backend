@@ -2,6 +2,7 @@
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CatFactsRequest } from './services/catFactsRequest.service';
+import { Discord } from './services/discord.service';
 import { IPAddressInfoRequest } from './services/iPAddressInfoRequest.service';
 import { SocialistPropaganda } from './services/socialistPropaganda.service';
 import { MessageToExternalDatabase } from './services/messageToExternalDatabase.service';
@@ -23,6 +24,7 @@ import { NestCrawlerModule } from 'nest-crawler';
   controllers: [AppController],
   providers: [
     AppService,
+    Discord,
     CatFactsRequest,
     IPAddressInfoRequest,
     SocialistPropaganda,
